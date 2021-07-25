@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'api.apps.ApiConfig',
-    'web.apps.WebConfig',
-    'run.apps.RunConfig'
 ]
 
 MIDDLEWARE = [
