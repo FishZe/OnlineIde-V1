@@ -56,6 +56,10 @@ OIer一只，英语不行，中文也不多好，将就看吧
 
     开启服务就好了
     
+    python manage.py migrate
+    python manage.py runserver 0.0.0.0:port
+
+    
 
 这边建议顺便打开nginx的反向代理和缓存，更爽
 
