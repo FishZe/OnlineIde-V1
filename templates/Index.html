@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Online Compile Beta - YFZ</title>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.1/jquery.js" type="text/javascript" charset="utf-8"></script>
+        <script src="./static/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="./static/ace/mode-{{Language}}.js" type="text/javascript" charset="utf-8"></script>
+        <script src="./static/ace/theme-tomorrow_night_eighties.js" type="text/javascript" charset="utf-8"></script>
+        <style>
+            body {
+                padding: 0; 
+                border: 0;  
+                margin: 0; 
+                vertical-align:top;
+                background-color: #5c5c5c;
+            }
+            #Header {
+                height: 50px;
+                background-color: #1d1d1d;
+                position: relative;
+            }
+            #Logo {
+                height: 50px;
+                width:  300px;
+                font-size: 25px;
+                line-height: 50px;
+                margin-left: 20px;
+                color: #ffffff;
+                background-color: #1d1d1d;
+            }
+            #Ide {
+                height: 600px;
+                width: 900px;
+                margin: auto;
+                position: relative;
+                background-color: #5c5c5c;
+            }
+            #Choices {
+                height: 40px;
+                background-color: #3e3e3e;
+                color: #cccccc;
+            }
+            #Language {
+                height: 25px;
+                margin-top: 7px;
+                margin-left: 10px;
+                font-size: 15px;
+                float: left;
+            }
+            #TimeLimit {
+                height: 25px;
+                float: left;
+                margin-top: 7px;
+                margin-left: 20px;
+            }
+            #TimeLimitEditor {
+                height: 20px;
+                width: 100px;
+            }
+            #MemoryLimit {
+                height: 25px;
+                float: left;
+                margin-top: 7px;
+                margin-left: 20px;
+            }
+            #MemoryLimitEditor {
+                height: 20px;
+                width: 100px;
+            }
+            #Run {
+                height: 30px;
+                float: right;
+                width: 70px;
+                margin-top: 5px;
+                margin-right: 10px;
+                line-height: 30px;
+                font-size: 15px;
+                text-align:center;
+                background-color: #2d2d2d;
+            }
+            #Code {
+                position: absolute;
+                left: 10px;
+                top: 50px;
+                width: 580px;
+                height: 540px;
+                margin-top: 0px;
+            }
+            #Input {
+                position: absolute;
+                right: 10px;
+                top: 50px;
+                height: 265px;
+                width: 290px;
+                color: #cccccc;
+                background-color: #393939;
+                z-index: 1;
+            }
+            #InputHeader {
+                height: 30px;
+                font-size: 15px;
+                line-height: 30px;
+            }
+            #InputEditor {
+                height: 235px;
+            }
+            #Output {
+                position: absolute;
+                right: 10px;
+                bottom : 10px;
+                height: 265px;
+                width: 290px;
+                color: #cccccc;
+                background-color: #393939;
+                z-index: 1;
+            }
+            #OutputHeader {
+                height: 30px;
+                font-size: 15px;
+                line-height: 30px;
+            }
+            #OutputEditor {
+                height: 235px;
+            }
+            .ace_scrollbar-v {
+                width : 30px;
+                margin: 0 auto;
+            }
+            .ace_scrollbar-v::-webkit-scrollbar {
+                width : 10px; 
+                height: 1px;
+            }
+            .ace_scrollbar-v::-webkit-scrollbar-thumb { 
+                border-radius: 10px;
+                box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+                background   : #535353;
+            }
+            .ace_scrollbar-v::-webkit-scrollbar-track { 
+                box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+                background   : #ededed;
+            }
+            .ace_scrollbar-h {
+                height: 30px;
+                margin: 0 auto;
+            }
+            .ace_scrollbar-h::-webkit-scrollbar {
+                width : 10px; 
+                height: 7px;
+            }
+            .ace_scrollbar-h::-webkit-scrollbar-thumb { 
+                border-radius: 10px;
+                box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+                background   : #535353;
+            }
+            .ace_scrollbar-h::-webkit-scrollbar-track { 
+                box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+                background   : #ededed;
+            }
+            #Login {
+                position: absolute;
+                float: right;
+                background-color: #2d2d2d;
+                top: 5px;
+                right: 10px;
+                height: 40px;
+                width: 100px;
+                color: #ffffff;
+                line-height: 40px;
+                font-size: 22px;
+                text-align:center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id = "Header">
+            <div id = "Logo">Online IDE</div>
+            <div id = "Login" onclick = "Log()">登录</div>
+        </div>
+        <div id = "Ide">
+            <div id = "Choices">
+                <select id = "Language"> 
+                    <option value = "cpp" {{Select.cpp}}>C++</option> 
+                    <option value = "c" {{Select.c}}>C</option>
+                    <option value = "python2" {{Select.python2}}>Python2</option>
+                    <option value = "python3" {{Select.python3}}>Python3</option>
+                    <option value = "java" {{Select.java}}>Java</option>
+                    <option value = "go" {{Select.go}}>Go</option>
+                </select> 
+                <div id = "TimeLimit">
+                    限制时间(ms)：
+                    <input id = "TimeLimitEditor" type = "text" value = "1000"/>
+                </div>
+                <div id = "MemoryLimit">
+                    限制内存(MB)：
+                    <input id = "MemoryLimitEditor" type = "text" value = "32"/>
+                </div>
+                <div id = "Run" onclick="DoPost()">运行!</div>
+                
+            </div>
+            <div id = "Code"></div>
+            <div id = "Input">
+                <div id = "InputHeader">&emsp;输入数据</div>
+                <div id = "InputEditor" ></div>
+            </div>
+            <div id = "Output">
+                <div id = "OutputHeader">&emsp;输出结果</div>
+                <div id = "OutputEditor"></div>
+            </div>
+        </div>
+        <script>
+            function SetCookie(Name, Value) {
+                var Days = 30;
+                var Exp = new Date();
+                Exp.setTime(Exp.getTime() + Days * 24 * 60 * 60 * 1000);
+                document.cookie = Name + "=" + escape(Value) + ";expires=" + Exp.toGMTString();
+            }
+            function GetCookie(Name) {
+                var Arr, Reg = new RegExp("(^| )" + Name + "=([^;]*)(;|$)");
+                if (Arr = document.cookie.match(Reg)) return unescape(Arr[2]);
+                else return null;
+            }
+            function DelCookie(Name) {
+                var Exp = new Date();
+                Exp.setTime(Exp.getTime() - 1);
+                var Cval = GetCookie(Name);
+                if (Cval != null) document.cookie = Name + "=" + Cval + ";expires=" + Exp.toGMTString();
+            }
+            var Hidden = 0;
+            var p = 0;
+            var Cho = document.getElementById("Choices").innerHTML;
+            var notLogin = true;
+                
+            LoginInfo = GetCookie("Login");
+            if(LoginInfo == null){
+                notLogin = true;
+            } else {
+                notLogin = false;
+            }
+        
+            function Init(){
+                
+                var Logindiv = document.getElementById("Login");
+                if(notLogin){
+                    Logindiv.innerHTML = "登录";
+                } else {
+                    Logindiv.innerHTML = LoginInfo;
+                }
+                
+                p = 0;
+                
+                var Time = document.getElementById("TimeLimitEditor").value;
+	            var Memory = document.getElementById("MemoryLimitEditor").value;
+                var lan = document.getElementById("Language").value;
+                
+                var IdeHeight = document.documentElement.clientHeight - 50;
+                
+                var Header = document.getElementById("Header");
+                Header.style.width = null;
+                Header.style.display = " ";
+    
+                var IdeWidth = window.getComputedStyle(Header).width.slice(0, window.getComputedStyle(Header).width.length - 2);
+                
+                var sUserAgent = navigator.userAgent.toLowerCase();
+                var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+                var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+                var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+                var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+                var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+                var bIsAndroid = sUserAgent.match(/android/i) == "android";
+                var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+                var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+
+                if(!(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) ){
+                    
+                    if(IdeHeight < 600 && IdeWidth < 900){
+                        IdeHeight = 600;
+                        IdeWidth = 900;
+                        Header.style.width = 900 + "px";
+                    } 
+                    
+                    var Ide = document.getElementById("Ide");
+                    Ide.style.width = IdeWidth + "px";
+                    Ide.style.height = IdeHeight + "px";
+    
+                    var Code = document.getElementById("Code");
+                    Code.style.width = (IdeWidth - 30) / 3 * 2 + "px";
+                    Code.style.height = IdeHeight - 60 + "px";
+    
+                    var Input = document.getElementById("Input");
+                    Input.style.width = (IdeWidth - 30) / 3  + "px";
+                    Input.style.height = (IdeHeight - 70) / 2 + "px";
+                    Input.style.top = 50 + "px";
+    
+                    var InputEditor = document.getElementById("InputEditor");
+                    InputEditor.style.height = (IdeHeight - 70) / 2 - 30 + "px";
+    
+                    var Output = document.getElementById("Output");
+                    Output.style.width = (IdeWidth - 30) / 3 + "px";
+                    Output.style.height = (IdeHeight - 70) / 2 + "px";
+                    Output.style.bottom = 10 + "px";
+    
+                    var OutputEditor = document.getElementById("OutputEditor");
+                    OutputEditor.style.height = (IdeHeight - 70) / 2 - 30 + "px";
+                    
+                    Input.style.zIndex = 1;
+                    Output.style.zIndex = 1;
+                    
+                    if(Hidden == 1) {
+                        Input.style.zIndex = -1;
+                        Output.style.zIndex = -1;
+                        Code.style.width = (IdeWidth - 20) + "px";
+                        
+                        var Choices = document.getElementById("Choices");
+                        Choices.innerHTML = Cho + "<div id = \"Run\" onclick=\"Hide()\">取消隐藏!</div>";
+                        document.getElementById("TimeLimitEditor").value = Time;
+	                    document.getElementById("MemoryLimitEditor").value = Memory;
+	                    document.getElementById("Language").value = lan;
+                    } else {
+                        var Choices = document.getElementById("Choices");
+                        Choices.innerHTML = Cho + "<div id = \"Run\" onclick=\"Hide()\">隐藏!</div>";
+                        document.getElementById("TimeLimitEditor").value = Time;
+	                    document.getElementById("MemoryLimitEditor").value = Memory;
+	                    document.getElementById("Language").value = lan;
+                    }
+                    
+                } else {
+                    var Ide = document.getElementById("Ide");
+                    Ide.style.width = IdeWidth + "px";
+                    Ide.style.height = 2 * IdeHeight + "px";
+    
+                    var Code = document.getElementById("Code");
+                    Code.style.width = (IdeWidth - 20) + "px";
+                    Code.style.height = IdeHeight - 40 + "px";
+    
+                    var Input = document.getElementById("Input");
+                    Input.style.width = (IdeWidth - 20)  + "px";
+                    Input.style.height = (IdeHeight/ 2 - 5)  + "px";
+                    Input.style.top = 20 + IdeHeight + "px";
+    
+                    var InputEditor = document.getElementById("InputEditor");
+                    InputEditor.style.height = (IdeHeight/ 2 - 35) + "px";
+    
+                    var Output = document.getElementById("Output");
+                    Output.style.width = (IdeWidth - 20) + "px";
+                    Output.style.height = (IdeHeight/ 2 - 5) + "px";
+                    Output.style.bottom = 5 + "px";
+    
+                    var OutputEditor = document.getElementById("OutputEditor");
+                    OutputEditor.style.height = IdeHeight/ 2 - 35 + "px";
+                }
+                
+                var CodeEditor = ace.edit("Code");
+                InitCodeEditor(CodeEditor);
+            }
+            function Log(){
+                if(notLogin){
+                    window.location.href = "{{Url}}login";
+                } else {
+                    if(confirm("您确认退出吗？") == true) {
+                        DelCookie("Login");
+                        notLogin = true;
+                        Init();
+                    }
+                }
+            }
+            
+            function Hide() {
+                if(Hidden == 0){
+                    Hidden = 1;
+                } else {
+                    Hidden = 0;
+                }
+                Init();
+            }
+            function InitCodeEditor(editor){
+                editor.setTheme("ace/theme/tomorrow_night_eighties");
+                var {{Language}}Mode = ace.require("ace/mode/{{Language}}").Mode;
+                editor.session.setMode(new {{Language}}Mode());
+                editor.setOptions({
+                    fontSize: "12pt"
+                });
+                editor.setShowPrintMargin(false); 
+                //editor.setValue("请在此输入输入数据"); 
+            }
+
+            function InitInputEditor(editor){
+                editor.setTheme("ace/theme/tomorrow_night_eighties");
+                editor.setOptions({
+                    fontSize: "12pt"
+                });
+                editor.setShowPrintMargin(false);
+                editor.renderer.setShowGutter(false);
+                editor.setHighlightActiveLine(false);
+            }
+
+            function InitOutputEditor(editor){
+                editor.setTheme("ace/theme/tomorrow_night_eighties");
+                editor.setOptions({
+                    fontSize: "12pt"
+                });
+                editor.setShowPrintMargin(false);
+                editor.renderer.setShowGutter(false);
+                editor.setHighlightActiveLine(false);
+                editor.setReadOnly(true);
+            }
+            
+            window.onresize=function(){ 
+                 Init();
+            }
+            
+            
+            Init();
+            
+            var CodeEditor = ace.edit("Code");
+            InitCodeEditor(CodeEditor);
+            
+            var InputEditor = ace.edit("InputEditor");
+            InitInputEditor(InputEditor);
+            
+            var Output = ace.edit("OutputEditor");
+            InitOutputEditor(Output);
+
+            var CookiesCode = {"cpp" : "", "c" : "", "python2" : "", "python3" : "", "java" : "", "go" : ""};
+            if(GetCookie("CookiesCode") == null) {
+                SetCookie("CookiesCode", JSON.stringify(CookiesCode));
+            } else {
+                CookiesCode = JSON.parse(GetCookie("CookiesCode"));
+                CodeEditor.setValue(CookiesCode[$("#Language option:selected").val()]);
+                console.log(CookiesCode);
+            }
+            
+            function AddResult(Data){
+                str = "";
+                str += "运行服务器: " + Data["Name"] + "\n";
+                if(Data["err"] == null) {
+                    str += "编译通过！\n";
+                    var res = Data['data'][0];
+                    switch (res["result"]){
+                        case 1:
+                            str += "cpu_time超时错误！\n";
+                            break;
+                        case 2:
+                            str += "real_time超时错误！\n";
+                            break;
+                        case 3:
+                            str += "内存超限！\n";
+                            break;
+                        case 4:
+                            str += "运行时错误！\n";
+                            break;
+                        case 5:
+                            str += "其他错误！\n";
+                            break;
+                        default:
+                            break;
+                    }
+                    str += "cpu time: " + res['cpu_time'];
+                    str += " ms\n内存: " + Math.floor(res['memory'] / 1024 / 1024);
+                    str += " MB\n输出: \n" + res['output'];
+                } else {
+                    str += "编译错误：\n";
+                    str += Data['data'];
+                }
+                
+                Output.setValue(str);
+            }
+            var ress;
+            function DoPost(){
+                if(notLogin){
+                    alert("请先登录！");
+                    return;
+                }
+                Output.setValue("");
+                if(CodeEditor.getValue() == ""){
+                    alert("代码不能为空！");
+                    return;
+                }
+                if(document.getElementById("TimeLimitEditor").value > 3000){
+                    alert("时间最高3000ms！");
+                    return;
+                }
+                if(document.getElementById("TimeLimitEditor").value == ""){
+                    alert("时间限制不能为空！");
+                    return;
+                }
+                if(document.getElementById("MemoryLimitEditor").value > 256){
+                    alert("内存最高128M！");
+                    return;
+                }
+                if(document.getElementById("MemoryLimitEditor").value == ""){
+                    alert("内存限制不能为空！");
+                    return;
+                }
+                Output.setValue("提交中......\n");
+                CookiesCode[$("#Language option:selected").val()] = CodeEditor.getValue();
+                SetCookie("CookiesCode", JSON.stringify(CookiesCode));
+                var Data = {
+                    "Input": InputEditor.getValue(),
+                    "Output": "0"
+                }
+                var Case = { 
+                    "Num": "1",  
+                    "1": Data,
+                }
+                var postData = {
+                    "User": LoginInfo,
+	                "Code": escape(CodeEditor.getValue()),
+	                "Case": Case,
+	                "Time": document.getElementById("TimeLimitEditor").value,
+	                "Memory": document.getElementById("MemoryLimitEditor").value,
+	                "Language": $("#Language option:selected").val()
+                };
+                postData = JSON.stringify(postData);
+                console.log(postData);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "{{ Url }}api/run", true);
+                xhr.setRequestHeader('X-CSRFtoken','{{ csrf_token }}');
+                xhr.onreadystatechange = function(){
+                    var XMLHttpReq = xhr;
+                    if (XMLHttpReq.readyState == 4 && XMLHttpReq.status == 200) {
+                            var text = XMLHttpReq.responseText;
+                            console.log(text);
+                            ress = text;
+                            AddResult($.parseJSON(text));
+                        }
+                };
+                xhr.send(postData);
+            }
+            
+            var now = $("#Language option:selected").val();
+            
+            document.getElementById("Language").onchange = ChangeLanguage;
+            function ChangeLanguage(){
+                CookiesCode[now] = CodeEditor.getValue();
+                console.log(CookiesCode);
+                SetCookie("CookiesCode", JSON.stringify(CookiesCode));
+                now = $("#Language option:selected").val();
+                p = 1;
+                window.location.href =  "/?language=" + now;
+            }
+            
+            window.onbeforeunload = function(event) {
+                if(p !== 1){
+                    CookiesCode[$("#Language option:selected").val()] = CodeEditor.getValue();
+                    SetCookie("CookiesCode", JSON.stringify(CookiesCode));
+                } else {
+                    CodeEditor.setValue();
+                }     
+            };
+            
+        </script>
+    </body>
+</html>
