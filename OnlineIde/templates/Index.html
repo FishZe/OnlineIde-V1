@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html style="overflow:hidden;">
+    <head>
+        <meta http-equiv = "content-type" content = "text/html; charset = utf-8" />
+        <meta name="referrer" content="origin">
+        <title>OnlineIde YFZ</title>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.1/jquery.js" type="text/javascript" charset="utf-8"></script>    
+        <script type="text/javascript" src="./static/node_modules/monaco-editor/min/vs/loader.js" ></script>
+        <base href="/">
+        <link  rel="stylesheet" href="./static/css/index.css" media = "all">
+        <style type = "text/css" >
+
+        </style>
+    </head>
+    <body>
+        
+        <div id = "PageSelect">
+            <div class='codicon codicon-code' style="font-size: 30px; position:absolute; top: 10px; left: 10px; color: #f0f0f0"></div>
+            <div class='codicon codicon-account' style="font-size: 40px; position:absolute; bottom: 10px; left: 5px; color: #f0f0f0"></div>
+        </div>
+        <div id = "CodeCommand">
+            <div id = "SelectLanguage">
+                <div id = "NowLanguage">
+                    <div id = "Selected"></div>
+                    <div class='codicon codicon-chevron-down' style="float: right; line-height: 25px; color: #f0f0f0" onclick = "ChangeLanguage()"></div>
+                </div>
+                <div id = "ChangeLanguage">
+                    <li value="0" class="Language" onclick = "SelectLanguage(this)">C++ 98</li>
+                    <li value="1" class="Language" onclick = "SelectLanguage(this)">C++ 11</li>
+                    <li value="2" class="Language" onclick = "SelectLanguage(this)">C++ 14</li>
+                    <li value="3" class="Language" onclick = "SelectLanguage(this)">C++ 17</li>
+                    <li value="4" class="Language" onclick = "SelectLanguage(this)">C</li>
+                    <li value="5" class="Language" onclick = "SelectLanguage(this)">Python 2</li>
+                    <li value="6" class="Language" onclick = "SelectLanguage(this)">Python 3</li>
+                    <li value="7" class="Language" onclick = "SelectLanguage(this)">Java</li>
+                    <li value="8" class="Language" onclick = "SelectLanguage(this)">JavaScript</li>
+                    <li value="9" class="Language" onclick = "SelectLanguage(this)">PHP</li>
+                    <li value="10" class="Language" onclick = "SelectLanguage(this)">Go</li>
+                    <li value="11" class="Language" onclick = "SelectLanguage(this)">TypeScript</li>
+                    <li value="12" class="Language" onclick = "SelectLanguage(this)">Pascal</li>
+                    <li value="13" class="Language" onclick = "SelectLanguage(this)">Haskell</li>
+                    <li value="14" class="Language" onclick = "SelectLanguage(this)">Rust</li>
+                    <li value="15" class="Language" onclick = "SelectLanguage(this)">Ruby</li>
+                    <li value="16" class="Language" onclick = "SelectLanguage(this)">Csharp</li>
+                    <li value="17" class="Language" onclick = "SelectLanguage(this)">Perl</li>
+                    <li value="18" class="Language" onclick = "SelectLanguage(this)">文言</li>
+                </div>
+            </div>
+            <div class='codicon codicon-play' style="float: right; line-height: 35px; font-size: 20px; color: #f0f0f0; margin-right: 15px" onclick = "RunCode()"></div>
+            <div class='codicon codicon-clear-all' style="float: right; line-height: 35px; font-size: 20px;color: #f0f0f0; margin-right: 15px" onclick = "ClickClearCode()"></div>
+        </div>
+        <div id = "CodeEditor"></div>
+        <div id = "CodeRunner">
+            <div id = "Border"></div>
+            <div id = "Input">
+                <div class = "RunnerWords"><div class='codicon codicon-fold-up' style="float: left; line-height: 30px; color: #f0f0f0; margin-right: 5px; margin-left: 5px" ></div>输入
+                </div>
+                <div id = "InputEditor"></div>
+            </div>
+            <div id = "Output">
+                <div class = "RunnerWords"><div class='codicon codicon-fold-down' style="float: left; line-height: 30px; color: #f0f0f0; margin-right: 5px; margin-left: 5px"></div>输出</div>
+                <div id = "OutputEditor"></div>
+            </div>
+        </div>
+        <div id = "Barrier"></div>
+        <div id = "Question">
+            <div class='codicon codicon-info' style="float: left; line-height: 100px; font-size: 50px; color: #f0f0f0; margin-left: 20px"></div>
+            <div id = "RequestWords">确认清空代码？</div>
+            <div class = "Chose" id = "No">取消</div>
+            <div class = "Chose" id = "Yes" style = "margin-left: 230px">确定</div>
+        </div>
+        
+        <script type = "text/javascript" charset = "utf-8">
+        
+            var csrf_token = "{{csrf_token}}";
+    
+            document.onreadystatechange = function () {
+                if (document.readyState == "complete") {
+                    document.body.style.display = "block";
+                } else {
+                    document.body.style.display = "none";
+                };
+            };
+    
+        </script>
+        <script type="text/javascript" src="./static/js/index.js" ></script>
+    </body>
+    
+</html>

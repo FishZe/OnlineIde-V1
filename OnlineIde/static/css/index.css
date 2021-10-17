@@ -1,0 +1,178 @@
+body {
+    height: none;
+    padding: 0; 
+    border: 0;  
+    margin: 0;
+    position: relative;
+    vertical-align:top;
+    font-family: consolate;
+    background-color: #3c3c3c;
+}
+#PageSelect {
+    width: 50px;
+    background-color: rgb(51, 51, 51);
+}
+#CodeCommand {
+    height: 35px;
+    background-color: #2d2d2d;
+    float: right;
+    position: absolute;
+    top: 0px;
+    left: 50px;
+}
+#SelectLanguage {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    height: 175px;
+    width: 150px;
+    text-indent: 4px;
+    z-index: 10;
+}
+#NowLanguage {
+    height: 24px;
+    width: 148px;
+    background-color: #3c3c3c;
+    border-color: #3c3c3c;
+    border-style: solid;
+    border-width: 1px;
+    cursor: default;
+}
+#Selected {
+    width: 128px;
+    height: 24px;
+    padding: none;
+    line-height: 24px;
+    font-size: 15px;
+    color: #f0f0f0;
+    float: left;
+}
+#ChangeLanguage {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    overflow: auto;
+    display: block;
+} 
+::-webkit-scrollbar{
+    width: 14px;
+    height: 100px;
+    background-color: #F5F5F5;
+}
+::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+    background-color: #3c3c3c;
+}
+ 
+::-webkit-scrollbar-thumb{
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+    background-color: rgb(88, 88, 88);
+}
+.Language {
+    height: 24px;
+    padding: none;
+    background: #3c3c3c;
+    color: #f0f0f0;
+    line-height: 24px;
+    font-size: 15px;
+    border-color: #3c3c3c;
+    border-style: solid;
+    border-width: 1px;
+    list-style-type: none;
+}
+.Language:hover {
+    background-color: rgb(9, 71, 113);
+    border-color: rgb(0, 127, 212);
+}
+#CodeEditor {
+    position: absolute;
+    top: 35px;
+    left: 50px;
+}
+#CodeRunner {
+    background-color: #2d2d2d;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+#Border {
+    height: 2px;
+    background-color: #414141;
+    cursor: n-resize;
+}
+#Input {
+    height: 90px;
+    background-color: rgb(45, 45, 45);
+    float: left;
+    margin-left: 10px;
+}
+#Output {
+    height: 90px;
+    background-color: rgb(45, 45, 45);
+    float: right;
+    margin-right: 10px;
+}
+.RunnerWords {
+    height: 30px;
+    width: 80px;
+    color: #f0f0f0;
+    border-color: rgb(45, 45, 45);
+    border-style: solid;
+    border-width: 1px;
+    line-height: 30px;
+    font-size: 15px;
+    cursor: default;
+    background-color: #3c3c3c;
+}
+#InputEditor {
+    height: 65px;
+    margin-left: 1px;
+}
+#OutputEditor {
+    height: 65px;
+    margin-left: 1px;
+}
+#Question {
+    height: 120px;
+    width: 300px;
+    z-index: 30;
+    background-color: rgb(30, 30, 30);
+    position: absolute;
+    border-color: rgb(0, 127, 212);
+    border-style: solid;
+    border-width: 2px;
+    display: block;
+}
+#RequestWords{
+    color: #f0f0f0;
+    line-height: 100px;
+    cursor: default;
+    text-indent: 10px;
+}
+#Barrier {
+    z-index: 20;
+    background-color: #ffffff;
+    opacity: 0.1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: block;
+}
+.Chose{
+    position: absolute;
+    height: 30px;
+    width: 50px;
+    color: #f0f0f0;
+    line-height: 30px;      
+    text-indent: 7px;
+    background-color: #3c3c3c;
+    top: 80px;
+    border-style: solid;
+    border-color: #3c3c3c;
+    border-width: 1px;
+    cursor: pointer;
+    margin-left: 170px;
+}
+.Chose:hover {
+    border-color: rgb(0, 127, 212);
+        }
