@@ -1,6 +1,6 @@
-## demo: [YFZ-Ide](https://ide.yufengze.org)
+# 本项目停止维护，代码全部重构，请前往我的主页查看新版 onlineIde
 
-### TODO：全部docker打包 (莫催，等noip结束)
+## demo: [YFZ-Ide](https://ide.fishze.com)
 
 ### 手动安装：
 
