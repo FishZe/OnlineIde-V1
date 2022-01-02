@@ -1,4 +1,4 @@
-# 本项目停止维护，代码全部重构，请前往我的主页查看新版 onlineIde
+# 本项目停止维护，代码全部重构，请前往我的主页查看 [新版 onlineIde](https://github.com/YuFengZe/onlineIde-V2-server)
 
 ## demo: [YFZ-Ide](https://ide.fishze.com)
 
